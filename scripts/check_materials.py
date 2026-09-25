@@ -55,6 +55,21 @@ def main() -> int:
                         if abs(near - s) > 15:
                             warns.append(f"{f.name}:{ln} {m.group(0)} — 가장 가까운 전사 블록과 {abs(near - s)}초 차이")
 
+    # ── 교재 쪽 번호 ──
+    books = meta.get("textbook") or []
+    max_page = max((b.get("pages") or 0 for b in books if b.get("kind") == "pdf"), default=0)
+    for f in sorted(out.glob("[0-9][0-9]_*.md")) + [out / "analysis.md"]:
+        if not f.exists():
+            continue
+        for ln, line in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
+            for m in re.finditer(r"\[교재 p\.?\s*(\d+)(?:\s*[–~-]\s*(\d+))?\]", line):
+                if not books:
+                    errors.append(f"{f.name}:{ln} {m.group(0)} — 교재를 받지 않았는데 교재 인용이 있음")
+                elif max_page and int(m.group(2) or m.group(1)) > max_page:
+                    errors.append(f"{f.name}:{ln} {m.group(0)} — 교재는 {max_page}쪽까지만 있음")
+                elif f.name.startswith("05_문제지"):
+                    warns.append(f"{f.name}:{ln} 문제지에 교재 쪽 표시 — 힌트가 되지 않는지 확인")
+
     # ── 문제지 ──
     exam_p, ans_p = out / "05_문제지.md", out / "05_정답해설.md"
     cfg = (meta.get("config") or {}).get("materials", {}).get("문제지", {})

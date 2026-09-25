@@ -157,6 +157,14 @@ def run(args: argparse.Namespace) -> Path:
 
     meta["created"] = dt.datetime.now().isoformat(timespec="seconds")
     meta["config"] = {"level": cfg["level"], "materials": cfg.get("materials")}
+
+    # ── 4. 교재 ──
+    if args.material:
+        log("④ 교재 준비 중…")
+        from material import prepare
+        meta["textbook"] = prepare(args.material, work)
+    else:
+        meta["textbook"] = []
     (work / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
 
     log(f"✅ 전처리 완료 — 출처: {meta['transcript_source']}, 언어: {meta['lecture_language']}, "
@@ -164,22 +172,36 @@ def run(args: argparse.Namespace) -> Path:
     return out
 
 
+def _cleanup() -> None:
+    if _created and not (_created / "_source" / "meta.json").exists():
+        shutil.rmtree(_created, ignore_errors=True)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="강의 영상 전처리")
     ap.add_argument("input", help="유튜브 URL 또는 영상/음성/자막 파일 경로")
     ap.add_argument("--lang", choices=["ko", "en"], help="강의 언어 (생략하면 자동 감지)")
     ap.add_argument("--level", choices=["기본", "심화"], help="자료 난이도")
+    ap.add_argument("--material", action="append", default=[],
+                    help="강의 교재·자료 (PDF, 사진, txt). 여러 개면 --material 을 반복")
     args = ap.parse_args()
     try:
         out = run(args)
     except StudyError as e:
-        if _created and not (_created / "_source" / "meta.json").exists():
-            shutil.rmtree(_created, ignore_errors=True)
+        _cleanup()
         print(e.report(), file=sys.stderr)
         print(f"STUDY_ERROR={e.code}")
         return e.exit_code
     except KeyboardInterrupt:
+        _cleanup()
         return 130
+    except Exception as e:  # 예상 못 한 오류도 원인을 보여 주고, 반쯤 만든 폴더는 지운다
+        _cleanup()
+        err = StudyError("UNKNOWN", "전처리 중 예상하지 못한 오류가 났습니다.",
+                         fix="아래 기술 정보를 Claude 에게 보여 주세요.", detail=repr(e))
+        print(err.report(), file=sys.stderr)
+        print(f"STUDY_ERROR={err.code}")
+        return err.exit_code
     print(f"OUTPUT_DIR={out}")
     return 0
 

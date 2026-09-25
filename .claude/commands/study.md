@@ -1,6 +1,6 @@
 ---
 description: 강의 영상(유튜브 URL 또는 로컬 파일) → 학습 자료 5종(정리본·필기본·필사본·워크북·문제지+해설) 생성
-argument-hint: <유튜브 URL | 영상 파일 경로> [--lang ko|en] [--level 기본|심화]
+argument-hint: <유튜브 URL | 영상 파일 경로> [--material 교재.pdf] [--lang ko|en] [--level 기본|심화]
 allowed-tools: Bash(python:*), Bash(python3:*), Bash(.venv/bin/python:*), Bash(.venv/Scripts/python.exe:*), Bash(ls:*), Read, Write, Edit, Glob, Grep
 ---
 
@@ -36,6 +36,11 @@ PY scripts/preprocess.py $ARGUMENTS
 2. `OUT/_source/transcript_clean.md` 를 **끝까지** 읽어 흐름을 파악한다.
 3. 타임스탬프를 달 때는 `OUT/_source/transcript_raw.md` 에서 확인한다.
    (파일이 길면 나눠서 읽되, 끝까지 읽는다.)
+4. **교재가 있으면** (`meta.json` 의 `textbook` 이 비어 있지 않으면) `guides/00_교재.md` 를 읽고 따른다.
+   - 글자 추출본: `OUT/_source/material.md` (쪽마다 `## [교재 p.N]`)
+   - `read_directly: true` 인 파일(스캔 PDF·사진)은 원본(`OUT/_source/materials/…`)을 Read 로 **직접 보고** 읽는다.
+     PDF 는 한 번에 최대 20쪽씩(`pages`) 읽는다.
+   - 교재 전체를 다 읽지 않아도 된다. **강의가 가리키는 부분**(문제 번호, 예문, 쪽, 표)을 찾아 읽는다.
 
 ## 3단계 — 구조 분석 → `OUT/analysis.md`
 - `guides/00_분석.md` 를 읽고 그 형식대로 작성한다.

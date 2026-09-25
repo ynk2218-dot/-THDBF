@@ -53,6 +53,8 @@ strong { font-weight: 700; }
 .badge.lv1 { background: #e9f6ee; color: #1f7a45; }
 .badge.lv2 { background: #fff1dc; color: #a45d00; }
 .badge.lv3 { background: #fde8e8; color: #b42318; }
+.badge.mat { background: #eef6ff; color: #1d5fa8; border: 1px solid #b9d4f2; font-weight: 500; }
+.badge.unk { background: #f4f4f5; color: #71717a; border: 1px dashed #a1a1aa; }
 .badge.tag { background: #f1f1f4; color: #484b55; border: 1px solid #d9dae0; }
 
 /* 필기 칸 */

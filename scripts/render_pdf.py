@@ -92,10 +92,12 @@ def ensure_mermaid() -> bool:
 
 # ── Markdown → HTML ──────────────────────────────────
 MD_EXT = ["tables", "fenced_code", "sane_lists", "attr_list", "def_list", "md_in_html"]
+_MAT_RE = re.compile(r"\[(교재[^\]\n]{0,40})\]")
 _LIST_RE = re.compile(r"^\s*(?:[-*+]|\d+\.)\s")
 _TS_RE = re.compile(r"\[((?:\d{1,2}:)?\d{1,2}:\d{2})((?:\s*[–~-]\s*(?:\d{1,2}:)?\d{1,2}:\d{2})?)\]")
 _BADGES = {
     "보충": "supp", "기본": "lv lv1", "응용": "lv lv2", "심화": "lv lv3",
+    "확인 불가": "unk",
     "개념 미이해": "tag", "적용 실패": "tag", "용어 혼동": "tag", "부주의": "tag",
 }
 
@@ -207,6 +209,7 @@ class Converter:
         # 배지
         for word, cls in _BADGES.items():
             body = body.replace(f"[{word}]", f'<span class="badge {cls}">{word}</span>')
+        body = _MAT_RE.sub(lambda m: f'<span class="badge mat">{m.group(1)}</span>', body)
         # 타임스탬프 → 링크
         def ts(m: re.Match) -> str:
             label = m.group(0)

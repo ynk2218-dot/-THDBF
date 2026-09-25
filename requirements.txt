@@ -3,3 +3,4 @@ faster-whisper>=1.0.0
 PyYAML>=6.0
 Markdown>=3.5
 playwright>=1.45
+pypdf>=4.0

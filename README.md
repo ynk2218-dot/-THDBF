@@ -125,6 +125,22 @@ claude
 |---|---|---|
 | `--lang ko` / `--lang en` | 강의 언어 지정 (생략하면 자동 감지) | `/study <링크> --lang en` |
 | `--level 기본` / `--level 심화` | 자료 난이도. 심화는 문항 수↑, 심화 문항 비율↑, 경계 조건·반례 추가 | `/study <링크> --level 심화` |
+| `--material 파일` | 강의 교재·자료 함께 넣기 (아래 설명). 여러 개면 반복 | `/study <링크> --material "교재.pdf"` |
+
+### 교재 함께 넣기 (`--material`)
+이 도구는 강의의 **소리**만 분석합니다. 그래서 강사가 **화면에만 띄우고 읽지 않은** 문제 원문·예문·표는 자료에 빠집니다.
+교재를 함께 넣으면 그 빈 곳을 교재에서 찾아 채웁니다.
+
+```
+/study https://youtu.be/XXXX --material "C:\Users\user\Downloads\3강 교재.pdf"
+/study "강의.mp4" --material "교재.pdf" --material "판서 사진.jpg"
+```
+- 지원 형식: **PDF**(글자 PDF·스캔본 모두), **사진**(jpg, png), txt/md
+- 한글(hwp)·워드(docx)는 **다른 이름으로 저장 → PDF**로 바꿔서 넣어 주세요.
+- 교재에서 가져온 내용에는 **`[교재 p.12]`** 배지가 붙습니다(PDF 쪽 번호 기준).
+- 강의에서 다루지 않은 교재 내용은 넣지 않습니다. 이 자료는 **이 강의**를 이해하기 위한 것이라서요.
+- 교재에서도 찾지 못한 것은 지어내지 않고 **`[확인 불가]`**로 표시합니다.
+- 두꺼운 교재 전체를 넣어도 되지만, **해당 강의 부분만** 잘라 넣으면 더 빠르고 정확합니다.
 
 ### 4. 결과 확인
 `output/날짜_강의제목/` 폴더에 생깁니다.
@@ -147,6 +163,21 @@ output/2026-09-25_강의제목/
 4. **문제지** 풀고 채점 → 해설 끝의 **오답 기록표**에 원인 태그 기록 → 태그별 처방 따라 복습
 
 ---
+
+## 새 버전으로 업데이트하기
+**가장 쉬운 방법**: `study-tool` 폴더에서 Claude Code를 켜고 이렇게 입력하세요.
+```
+https://github.com/ynk2218-dot/-THDBF 의 최신 코드로 이 폴더를 업데이트해 줘. output 폴더와 .venv 폴더는 건드리지 말고, 끝나면 requirements.txt 로 패키지도 다시 설치해 줘.
+```
+
+**직접 하는 방법** (🪟 Windows)
+1. GitHub에서 ZIP을 다시 받아 압축을 풉니다.
+2. 풀린 폴더 안의 파일을 전부 선택해서 `study-tool` 폴더에 **덮어쓰기**로 붙여 넣습니다. `output`, `.venv`는 새 ZIP에 없으므로 그대로 남습니다.
+3. PowerShell에서:
+```powershell
+cd ~\study-tool
+.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
 
 ## 설정 바꾸기 (`config.yaml`)
 메모장이나 VS Code 로 열어 숫자만 바꾸면 됩니다.
