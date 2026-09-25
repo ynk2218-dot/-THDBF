@@ -12,6 +12,7 @@ import urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import common  # noqa: E402,F401  (출력 인코딩을 UTF-8 로 맞춤)
 
 IS_WIN = platform.system() == "Windows"
 IS_MAC = platform.system() == "Darwin"

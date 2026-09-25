@@ -13,6 +13,9 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import common  # noqa: E402,F401  (출력 인코딩을 UTF-8 로 맞춤)
+
 REQUIRED = ["01_정리본.md", "02_필기본.md", "03_필사본.md", "04_워크북.md", "05_문제지.md", "05_정답해설.md"]
 TS = re.compile(r"\[((?:\d{1,2}:)?\d{1,2}:\d{2})(?:\s*[–~-]\s*((?:\d{1,2}:)?\d{1,2}:\d{2}))?\]")
 TAGS = ["[개념 미이해]", "[적용 실패]", "[용어 혼동]", "[부주의]"]

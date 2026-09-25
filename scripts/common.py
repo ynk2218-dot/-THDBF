@@ -11,6 +11,13 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 
+# Windows 에서 출력이 파이프로 넘어가면 기본 인코딩이 cp949 라 ✅ 같은 기호에서 멈춘다.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
+
 
 # ── 오류 ──────────────────────────────────────────────
 # 조용히 넘어가지 않기 위해, 실패는 모두 StudyError 로 모아
