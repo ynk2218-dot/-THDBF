@@ -1,0 +1,34 @@
+/* ── 02 필기본: 코넬 노트 ─────────────────────────────
+   [단서 질문 | 필기] 두 칸 + 하단 [요약] 칸 */
+.cornell {
+  display: grid;
+  grid-template-columns: 30% 1fr;
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+  margin: 3mm 0 0;
+  break-inside: auto;
+}
+.cornell > .cue {
+  border-right: 1.5px solid var(--ink);
+  padding: 3mm;
+  background: #f7f8fb;
+  font-size: 9pt;
+}
+.cornell > .cue::before { content: "단서 질문"; display: block; font-size: 7.5pt; color: var(--sub); font-weight: 700; margin-bottom: 1.5mm; }
+.cornell > .cue ul, .cornell > .cue ol { padding-left: 4mm; }
+.cornell > .cue li { margin-bottom: 3mm; }
+.cornell > .note { padding: 3mm 4mm; font-size: 9.5pt; }
+.cornell > .note::before { content: "필기"; display: block; font-size: 7.5pt; color: var(--sub); font-weight: 700; margin-bottom: 1.5mm; }
+.cornell > .note pre { background: #fbfbfc; font-family: 'Noto Sans KR', sans-serif; font-size: 9.5pt; }
+.summary {
+  border: 1.5px solid var(--ink);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  padding: 3mm 4mm;
+  margin: 0 0 6mm;
+  background: #fffdf3;
+  break-inside: avoid;
+}
+.cornell + .summary { margin-top: -1px; }
+.summary::before { content: "요약 — 이 구간을 세 줄로"; display: block; font-size: 7.5pt; color: var(--sub); font-weight: 700; margin-bottom: 1mm; }
+.cornell .note strong { color: var(--accent); }

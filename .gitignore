@@ -1,0 +1,7 @@
+output/
+.venv/
+__pycache__/
+*.pyc
+templates/fonts/
+templates/vendor/
+.DS_Store

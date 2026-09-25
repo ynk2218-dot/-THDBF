@@ -1,0 +1,76 @@
+# ─────────────────────────────────────────────
+#  강의 → 학습 자료 5종 생성기 설정 파일
+#  (# 뒤는 설명입니다. 값만 바꾸면 됩니다.)
+# ─────────────────────────────────────────────
+
+# 강의 언어: auto(자동 감지) | ko | en
+#   /study 명령에서 --lang 을 주면 그 값이 우선합니다.
+lecture_language: auto
+
+# 학습 자료를 쓸 언어 (영어 강의라도 해설은 한국어로)
+output_language: ko
+
+# 기본 난이도: 기본 | 심화   (/study --level 로 덮어쓸 수 있음)
+level: 기본
+
+# 결과물 폴더
+output_dir: output
+
+# ── 음성 인식 (자막이 없을 때만 사용) ──────────
+whisper:
+  # tiny < base < small < medium < large-v3  (오른쪽일수록 정확하지만 느림)
+  # 한국어 강의는 small 이상, 가능하면 medium 권장
+  model: small
+  device: auto          # auto | cpu | cuda
+  compute_type: auto    # auto | int8 | float16 | float32
+
+# ── 긴 강의 처리 ──────────────────────────────
+long_lecture:
+  threshold_min: 40     # 이 길이(분) 이상이면 구간을 나눠 분석
+  chunk_min: 15         # 한 구간의 목표 길이(분)
+
+# ── 자료별 분량 ───────────────────────────────
+materials:
+  정리본:
+    max_concepts: 8               # 개념 카드 최대 개수
+  필사본:
+    min_sentences: 10
+    max_sentences: 15
+  워크북:
+    빈칸: 10
+    원인결과: 5
+    백지설명: 2
+    적용: 3
+  문제지:
+    total: 15
+    types:                        # 합계가 total 과 같아야 함
+      객관식: 8
+      단답: 4
+      서술형: 3
+    difficulty:                   # 비율(%) — 합계 100
+      기본: 40
+      응용: 40
+      심화: 20
+
+# --level 심화 일 때 위 값 중 바꿀 것만 적습니다.
+level_overrides:
+  심화:
+    materials:
+      문제지:
+        total: 18
+        types: {객관식: 8, 단답: 4, 서술형: 6}
+        difficulty: {기본: 20, 응용: 40, 심화: 40}
+      워크북:
+        적용: 5
+
+# ── 유튜브 다운로드 ─────────────────────────
+ytdlp:
+  # YouTube가 '로봇 확인'을 요구하며 막을 때만 사용:
+  # 평소 유튜브에 로그인해 둔 브라우저 이름 (chrome | edge | safari | firefox)
+  cookies_from_browser: ""
+
+# ── PDF ───────────────────────────────────────
+pdf:
+  enabled: true
+  # 브라우저를 못 찾을 때 크롬/크로미움 실행 파일 경로를 직접 적을 수 있음
+  chromium_path: ""

@@ -1,0 +1,44 @@
+{
+  "input": "/tmp/claude-0/lec/기억의_과학_인출연습.mp4",
+  "level": "기본",
+  "output_language": "ko",
+  "title": "기억의_과학_인출연습",
+  "url": null,
+  "ts_url": null,
+  "duration_sec": 353.542993,
+  "transcript_source": "local_subtitle:기억의_과학_인출연습.srt",
+  "lecture_language": "ko",
+  "chunks": [],
+  "created": "2026-09-25T05:50:23",
+  "config": {
+    "level": "기본",
+    "materials": {
+      "정리본": {
+        "max_concepts": 8
+      },
+      "필사본": {
+        "min_sentences": 10,
+        "max_sentences": 15
+      },
+      "워크북": {
+        "빈칸": 10,
+        "원인결과": 5,
+        "백지설명": 2,
+        "적용": 3
+      },
+      "문제지": {
+        "total": 15,
+        "types": {
+          "객관식": 8,
+          "단답": 4,
+          "서술형": 3
+        },
+        "difficulty": {
+          "기본": 40,
+          "응용": 40,
+          "심화": 20
+        }
+      }
+    }
+  }
+}
